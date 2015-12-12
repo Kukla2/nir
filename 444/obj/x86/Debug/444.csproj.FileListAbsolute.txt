@@ -5,3 +5,4 @@ c:\users\admin\documents\visual studio 2010\Projects\444\444\bin\Debug\444.exe
 c:\users\admin\documents\visual studio 2010\Projects\444\444\bin\Debug\444.pdb
 c:\users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\444.exe
 c:\users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\444.pdb
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\444.csprojResolveAssemblyReference.cache
