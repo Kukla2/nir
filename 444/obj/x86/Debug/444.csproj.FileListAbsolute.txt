@@ -1,8 +1,9 @@
-c:\users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\_444.Form1.resources
 c:\users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\_444.Properties.Resources.resources
 c:\users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\444.csproj.GenerateResource.Cache
 c:\users\admin\documents\visual studio 2010\Projects\444\444\bin\Debug\444.exe
 c:\users\admin\documents\visual studio 2010\Projects\444\444\bin\Debug\444.pdb
 c:\users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\444.exe
 c:\users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\444.pdb
+C:\Users\admin\Documents\Visual Studio 2010\Projects\444\444\obj\x86\Debug\_444.Form1.resources
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\_444.Form2.resources
 C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Debug\444.csprojResolveAssemblyReference.cache
