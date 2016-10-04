@@ -1,0 +1,8 @@
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\bin\Release\444.exe
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\bin\Release\444.pdb
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Release\_444.Form1.resources
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Release\_444.Properties.Resources.resources
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Release\444.csproj.GenerateResource.Cache
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Release\444.exe
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Release\444.pdb
+C:\Users\admin\documents\visual studio 2010\Projects\444\444\obj\x86\Release\444.csprojResolveAssemblyReference.cache
