@@ -702,7 +702,7 @@ namespace _444
             int ll = 0; List<int> chop = new List<int>();
             double piki = 0;
             int prohod = Convert.ToInt32(textBox5.Text);
-            double porog = Convert.ToDouble(porogN.Text);
+            //double porog = Convert.ToDouble(porogN.Text);
                 
                     //for (int sa=0; sa<porog.Length;sa++)
                     //{
