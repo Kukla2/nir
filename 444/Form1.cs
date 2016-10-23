@@ -273,7 +273,8 @@ namespace _444
             while (i <= j)//Поиск до схождения в точку, равенство чтобы гарантировать хоть 1 сравнение 
             {
                 k = (i + j) / 2;//Середина 
-                cres = String.Compare(Convert.ToString(arts[k].node), Convert.ToString(candid));//Сравнили 
+               
+                //cres = String.Compare(Convert.ToString(arts[k].node), Convert.ToString(candid));//Сравнили 
                 //dk = po.IndexOf(arts[k].leaf);//есть ли ПО
                 //cres = String.Compare(arts[k].leaf, po[pl]);
                 //dk = po.IndexOf(arts[i].leaf);//есть ли ПО
@@ -283,16 +284,16 @@ namespace _444
                 //    j = k;
                 //}
 
-                if (cres == 0)//Нашли 
+                if (arts[k].node == candid)//Нашли 
                 {
                     f = 1; 
                     //i = k;
                     j = k - 1;
                 }
                 
-                if (cres < 0)//Нужное после середины 
+                if (arts[k].node < candid)//Нужное после середины 
                 { i = k + 1; }
-                if (cres > 0)//Нужное перед серединой 
+                if (arts[k].node > candid)//Нужное перед серединой 
                 {
                     if (j == i)//если ушли в точку - корректируем, чтобы не было бесконечного цикла 
                         j = i - 1;
@@ -304,7 +305,7 @@ namespace _444
             if (f == 1)//проверили что нашли 
             {
                 //cres = String.Compare(Convert.ToString(arts[i].node), Convert.ToString(candid));//Сравнили
-                while (((String.Compare(Convert.ToString(arts[i].node), Convert.ToString(candid))) == 0) && (i < arts.Length-1))
+                while ((i <= arts.Length - 1) && (arts[i].node == candid))
                 {
                     //greed++;зачем оно тут???
                     //cres = String.Compare(Convert.ToString(arts[i].node), Convert.ToString(candid));//Сравнили
@@ -429,10 +430,16 @@ namespace _444
                     {
                         for (int k = i; k < words.Count; k++)
                         {
+                            if (words[k] == "Следующая страница")
+                            {
+                                link_of_id = new Category() { IdCat = u, LinkCat = "https://ru.wikipedia.org" + words[k - 3], NameCat = "" }; u++;//нашли категорию
+                                Stek_links.Add(link_of_id);
+                            }
                             if (words[k] == ("CategoryTreeChildren"))
                             {
                                 link_of_id = new Category() { IdCat = u, LinkCat = "https://ru.wikipedia.org" + words[k - 13], NameCat = words[k - 12] }; u++;//нашли категорию
-                                search_untouched_link(Name_links, link_of_id, Stek_links);//поиск повторений
+                                //search_untouched_link(Name_links, link_of_id, Stek_links);//поиск повторений
+                                
                             }
                         }
                         goto NextAddress;//кончилась страница
@@ -487,7 +494,7 @@ namespace _444
             //}
             // if (j == Stek_links.Count) goto Out;
 
-            if (Stek_links[j].NameCat == "Межзвёздная среда‎‎") goto Out;//Спутники столкнувшиеся на орбите или повреждённые космическим мусором
+            if (Stek_links[j].NameCat == "BLITS") goto Out;//Спутники столкнувшиеся на орбите или повреждённые космическим мусором    Межзвёздная среда‎‎
 
             // 2) Собрать категории в два массива
 
@@ -514,7 +521,7 @@ namespace _444
 
                 // 6) Добавляем в граф
 
-                string way = @"d:\test\Graf.txt";
+                string way = @"d:\test\PO\graf.txt";//@"C:\Users\CalcuFox\Desktop\Три\Graf.txt";
                 StreamWriter file = new StreamWriter(way);
                 //    запись в файл
 
@@ -697,7 +704,6 @@ namespace _444
             //for (int vt=0; vt<Ver.Length ; vt++)
             //    {
             DataDomain.Add(Convert.ToInt32(/*Ver[vt]*/textBox3.Text)); // номер вершины
-            //Candidate.Add(Convert.ToInt32(/*Ver[vt]*/textBox3.Text));
             //Candidate.Add(/*Ver[0]*/Convert.ToInt32(textBox3.Text));
             int ll = 0; List<int> chop = new List<int>();
             double piki = 0;
@@ -727,7 +733,7 @@ namespace _444
                    
                    // fe.CopyTo(fer.ToArray(), 0);
            // fer.ToList<int>();
-                    Fracion fra = new Fracion { root = (DataDomain[0]), ratioN = Convert.ToDouble(search_untouched_connect(idCon, DataDomain[0], DataDomain)), ratioK = Convert.ToDouble(search_untouched_connect(idCon, DataDomain[0], fer.ToList<int>())), sv = 0.0 };
+                    Fracion fra = new Fracion { root = (DataDomain[0]), ratioN = 1.0/*Convert.ToDouble(search_untouched_connect(idCon, DataDomain[0], DataDomain))*/, ratioK = Convert.ToDouble(search_untouched_connect(idCon, DataDomain[0], fer.ToList<int>())), sv = search_untouched_connect(idCon, DataDomain[0], Candidate) };
                     Fract.Add(fra);
             
                     Candidate.Clear();
@@ -781,21 +787,28 @@ namespace _444
                                 //}
                             }
                         }
-
+                        //Candidate.Add(Convert.ToInt32(/*Ver[vt]*/textBox3.Text));
                         file9.Close();
-                        greed = 0.0;
-                      foreach (int too in DataDomain)
-                            {
-                                greed += Convert.ToDouble(search_untouched_connect(idCon, too, DataDomain) / 2.0);
-                            }
                         //Candidate = Candidate.Where(x => x != 0).ToArray();
                         // НА ДОБАВЛЕНИЕ
                         //поиск всех интересующих наc связей кандидатов
                         for (int yui = 0; yui < Candidate.Count; yui++)
                         {
+                            if (DataDomain.IndexOf(Candidate[yui]) != -1) //если есть такой
+                            {
+                                //DataDomain.Add(Candidate[yui]);
+                                DataDomain.Remove(Candidate[yui]); 
+                            }
+                            DataDomain.Add(Candidate[yui]);
+                            greed = 0.0;
+                            foreach (int too in DataDomain)
+                            {
+                                greed += Convert.ToDouble(search_untouched_connect(idCon, too, DataDomain)/2.0);
+                            }
                             //come here Candidate[yui]
                             //greed = 0;
                             //svaaaz = 0; 
+
                             svaaaz = search_untouched_connect(idCon, Candidate[yui], DataDomain); //количество связей кандидата с ПО
                             //количство связей кандидата
                             //for (int ryr = 0; ryr < DataDomain.Count; ryr++)
@@ -817,35 +830,43 @@ namespace _444
 
                             // n - количество связей в по, k - количество связей вершины
                             fra = new Fracion { root = Candidate[yui], ratioN = (greed), ratioK = (Convert.ToDouble(search_untouched_connect(idCon, Candidate[yui], fer.ToList<int>()))), sv = svaaaz };//двойной массив
+                            
                             //svaaaz = 0; 
                             //greed = 0;
                             //if ((fra.ratioK > porog/*[sa]*/)/* && (DataDomain.IndexOf(fra.root) == -1)*/)
                             if ((((svaaaz / fra.ratioN) >= Convert.ToDouble(porogN.Text)) || ((Double.IsNaN(svaaaz / fra.ratioN)) == true)) && ((svaaaz / fra.ratioK) >= Convert.ToDouble(porogK.Text)))
                             {
-                                if(DataDomain.IndexOf(fra.root) != -1) //заменяем если вершина уже есть
-                                {
-                                    Fract.Remove(Fract[DataDomain.IndexOf(fra.root)]);
-                                    DataDomain.Remove(fra.root);
+                                //if (/*DataDomain.IndexOf(fra.root)*/Fract.IndexOf() != -1) //заменяем если вершина уже есть >> не будет ее
+                                     
+                                //{
+                                   // Fract.RemoveAll(Fract[DataDomain.IndexOf(fra.root)]);
+                             
+                                 Fract.RemoveAll(x => x.root == Candidate[yui]);
+                                //   // DataDomain.Remove(fra.root); можно не заменять
+                                   //Fract.Add(fra);
+                                //   // DataDomain.Add(fra.root); //chop++;
+                                //    //пересчитать кол связей по мб не надо, все равно переситываем при заходе
+                                //    //greed = 0.0;
+                                //    //foreach (int too in DataDomain)
+                                //    //{
+                                //    //    greed += Convert.ToDouble(search_untouched_connect(idCon, too, DataDomain));
+                                //    //}
+                                //}
+                                //if (DataDomain.IndexOf(fra.root) == -1) //добавляет если не нашел такой вершины
+                                //{
                                     Fract.Add(fra);
-                                    DataDomain.Add(fra.root); //chop++;
+                                   // DataDomain.Add(fra.root);
                                     //пересчитать кол связей по
-                                    greed = 0.0;
-                                    foreach (int too in DataDomain)
-                                    {
-                                        greed += Convert.ToDouble(search_untouched_connect(idCon, too, DataDomain) / 2.0);
-                                    }
-                                }
-                                if (DataDomain.IndexOf(fra.root) == -1) //добавляет если не нашел такой вершины
-                                {
-                                    Fract.Add(fra);
-                                    DataDomain.Add(fra.root);
-                                    //пересчитать кол связей по
-                                    greed = 0.0;
-                                    foreach (int too in DataDomain)
-                                    {
-                                        greed += Convert.ToDouble(search_untouched_connect(idCon, too, DataDomain) / 2.0);
-                                    }
-                                }
+                                    //greed = 0.0;
+                                    //foreach (int too in DataDomain)
+                                    //{
+                                    //    greed += Convert.ToDouble(search_untouched_connect(idCon, too, DataDomain));
+                                    //}
+                               // }
+                            }
+                            else 
+                            { 
+                                DataDomain.Remove(Candidate[yui]);
                             }
                         }
                         //   DataDomain.Clear();
@@ -880,13 +901,17 @@ namespace _444
                         //}
                         //file4.WriteLine("Конец этапа" + lip + "\n");
                         //file4.Close();
-
+                        List<int> Del = new List<int>();
                         Candidate.Clear();
                         //  Fract.Clear();
                         //НА ВЫКИДЫВАНИЕ
-                        StreamWriter file611 = new StreamWriter(wat, true);
                         for (int ryr = 0; ryr < DataDomain.Count; ryr++)
                         {
+                             greed = 0.0;
+                                foreach (int too in DataDomain)
+                                {
+                                    greed += Convert.ToDouble(search_untouched_connect(idCon, too, DataDomain)/2.0);
+                                }
                             //svaaaz = 0; greed = 0;
                             svaaaz = search_untouched_connect(idCon, DataDomain[ryr], DataDomain);
 
@@ -918,17 +943,23 @@ namespace _444
                                // Fract.Remove(Fract[DataDomain.IndexOf(fra.root)]);
                                 Fract.Remove(fra);
                                 DataDomain.Remove(fra.root);
-                                file61.WriteLine("{" + Convert.ToString(fra.root) + "};\n");
+                                Del.Add(fra.root);
+                                //file61.WriteLine("{" + Convert.ToString(fra.root) + "};\n");
                                 //тут надо пересчитывать greed
-                                //пересчитать кол связей по
-                                greed = 0.0;
-                                foreach (int too in DataDomain)
-                                {
-                                    greed += Convert.ToDouble(search_untouched_connect(idCon, too, DataDomain) / 2.0);
-                                }
+                                //пересчитать кол связей по не надо
+                                
+                               
                             }
                         }
+                        StreamWriter file611 = new StreamWriter(wat, true);
+
+                        for (int s = 0; s < Del.Count; s++)
+                        {
+                            file611.WriteLine("{" + Convert.ToString(Del[s]) + "};\n");
+                        }
                         file611.Close();
+                      
+
 
                         //DataDomain.Clear();
                         //for (int ww = 0; ww < Fract.Count; ww++)
@@ -960,7 +991,7 @@ namespace _444
                         StreamWriter file5 = new StreamWriter(wap, true);
                         for (int ole = 0; ole < Fract.Count; ole++)
                         {
-                            file5.WriteLine(" [" + Convert.ToString(Fract[ole].root) + "] - " + Convert.ToString(svaaaz/Fract[ole].ratioN) + " || " + Convert.ToString(svaaaz/Fract[ole].ratioK) /* +" || " + Convert.ToString(Fract[ole].sv)*/ + "\n");
+                            file5.WriteLine(" [" + Convert.ToString(Fract[ole].root) + "] - " + Convert.ToString(Fract[ole].sv / Fract[ole].ratioN) + " || " + Convert.ToString(Fract[ole].sv/ Fract[ole].ratioK)  /*+" || " + Convert.ToString(Fract[ole].sv)*/ + "\n");
                         }
                         //file5.WriteLine("Удалено: ");
                         //for (int kk = 0; kk < chop.Count; kk++)
@@ -1098,12 +1129,12 @@ namespace _444
                     if (Convert.ToInt32(wor[t]) == Convert.ToInt32(wol[sl]))
                     {
                         //DataDomain.Add(Convert.ToInt32(wor[t]));
-                        fil.WriteLine(wol[sl + 1] + wor[t+1] + ";\n"); break;
+                        fil.WriteLine("[" + wol[sl + 1] + "]" + wor[t+1] + ";\n"); break;
                     }
-                    //if (wor[t].Contains(u) == true)
-                    //{
-                    //    fil.WriteLine("\nПРОХОД\n");
-                    //}
+                    if (wor[t].Contains(u) == true)
+                    {
+                        fil.WriteLine("\n" + "\n");/* wor[t].Intersect(u);*/
+                    }
                 }
             }
             fil.Close();
@@ -1184,6 +1215,7 @@ namespace _444
         {
             var sw3 = new Stopwatch();
             sw3.Start();
+            idCon.Clear();
             List<Connect> Newidconew = new List<Connect>();
             using (FileStream ggg = new FileStream(serway, FileMode.OpenOrCreate))
             {
@@ -1199,6 +1231,98 @@ namespace _444
             }
             sw3.Stop();
             richTextBox1.Text += "Время выполнения десериализации: " + sw3.Elapsed.ToString() + "\n";
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            {
+            int over_link = 0;
+            int stop = 0;
+            //int j = 0;
+
+            // 1) Пройти по корневой ссылке
+
+            link_of_name = new Category() { IdCat = 0, LinkCat = Convert.ToString(textBox1.Text), NameCat = Convert.ToString(textBox1.Text) };
+            Stek_links.Add(link_of_name);
+            Name_links.Add(link_of_name);
+                for (int ws = 0; ws < Stek_links.Count; ws++)
+                {
+                    Parser(Stek_links[ws].LinkCat, false);//статьи
+                    Parser(Stek_links[ws].LinkCat, true);//категории
+                
+        //NextAddress: stop++; over_link++;
+        //    //if (over_link > 10) //стопарик slog.Count
+        //    //{
+        //    //    goto Out;
+        //    //}
+        //    //if (j - 1 == 10)// собрать только 3 штуки
+        //    //{
+        //    //    goto Out;
+        //    //}
+        //    // if (j == Stek_links.Count) goto Out;
+
+        //    if (Stek_links[j].NameCat == "BLITS") goto Out;//Спутники столкнувшиеся на орбите или повреждённые космическим мусором    Межзвёздная среда‎‎
+
+        //    // 2) Собрать категории в два массива
+
+        //    Parser(Stek_links[j].LinkCat, false);//статьи
+        //    Parser(Stek_links[j].LinkCat, true);//категории
+        //    j++;
+
+        //    goto NextAddress;
+        //Out:
+        //    //for (int r = 0; r < idCon.Count; r++)
+        //    //{
+        //    //    richTextBox1.Text += Convert.ToString(idCon[r].leafName) + " - " + Convert.ToString(idCon[r].nodeName) + "\n";
+        //    //}
+        //    //for (int r = 0; r < Stek_links.Count; r++)
+        //    //{
+        //    //    richTextBox1.Text += Convert.ToString(Stek_links[r].NameCat) + "\n";
+        //    //}
+        //    int uiu = 0;
+
+
+                    string way22 = @"C:\Users\CalcuFox\Desktop\HJ\ЗвездыПО.txt";
+                StreamWriter filer = new StreamWriter(way22);
+                //    запись в файл
+                for (int r = 0; r < Stek_articles.Count; r++)//Stek_articles.Count
+                {
+                    filer.WriteLine(Convert.ToString(Stek_articles[r].NameCat) + ";\n"); //ut++; uiu++;// берет слова из каждой статьи
+                }
+                filer.Close();
+            }
+/*
+                //               for (int p = 0; p < Slova.Count; p++)
+                for (int p = 0; p < idCon.Count; p++)
+                {
+                    //                       file.WriteLine(Convert.ToString(Slova[p].IdCat) + ") " + Convert.ToString(Slova[p].NameCat)+ "\n");
+                    file.WriteLine(Convert.ToString(idCon[p].node) + ":" + Convert.ToString(idCon[p].leaf) + ";\n");
+                    //                        file.WriteLine(Convert.ToString(idCon[p].node) + ") " + Convert.ToString(idCon[p].nodeName) + " ------ " + Convert.ToString(idCon[p].leaf) + ")" + Convert.ToString(idCon[p].leafName) + "\n");
+                }
+                file.Close();*/
+
+                //string way1 = @"d:\test\Kategorii.txt";
+                //StreamWriter file1 = new StreamWriter(way1);
+                //for (int p = 0; p < Stek_links.Count; p++)
+                //{
+                //    file1.WriteLine(Convert.ToString(Stek_links[p].IdCat) + " --- " + Convert.ToString(Stek_links[p].NameCat) + "\n ");
+                //}
+                //file1.Close();
+
+                //string way2 = @"d:\test\Slova.txt";
+                //StreamWriter file2 = new StreamWriter(way2);
+
+                //for (int p = 0; p < Stek_articles.Count; p++)
+                //{
+                //    file2.WriteLine(Convert.ToString(Stek_articles[p].IdCat) + " --- " + Convert.ToString(Stek_articles[p].NameCat) + "\n" + "\n");
+                //}
+                //file2.Close();
+
+
+                //    uiu = 0;
+                //}
+            }
+            Close();
         }
         
 }
